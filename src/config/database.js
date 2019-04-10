@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 // string to connect to docker mongo 'mongodb://mongo:27017/nameOfTheDatabase'
 // string to connect to localhost mongo 'mongodb://localhost/nameOfTheDatabase'
-export default mongoose.connect('mongodb://mongo:27017/letitgo').then(() => {
+module.exports = mongoose.connect('mongodb://mongo:27017/gastarme1').then(() => {
   console.log('connected to mongoDB')
 }).catch((err) => {
   console.log(err)
