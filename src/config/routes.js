@@ -21,6 +21,7 @@ router.route('/signup')
 router.route('/cards')
   .get(middleWareAuth, cardController.getCards)
   .post(middleWareAuth, cardController.addCard)
+  .delete(middleWareAuth, cardController.removeCard)
 
 router.route('/wallets')
   .post(middleWareAuth, walletController.addWallet)

@@ -1,3 +1,7 @@
+/* eslint-disable prefer-const */
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
+/* eslint-disable no-underscore-dangle */
 const Card = require('./cardModel')
 
 const Wallet = require('../wallet/walletModel')
@@ -58,6 +62,28 @@ exports.addCard = (req, res) => {
   })
 }
 
-// exports.removeCard = (req, res) => {
+exports.removeCard = (req, res) => {
+  Wallet.findOne({
+    usuarioId: req.decoded._id,
+  }, (err, wallet) => {
+    let walletWithOutCard = wallet
+    const newWallet = wallet.cartoes.filter((cartao) => {
+      if (String(cartao._id) !== req.body.idCartao) {
+        return cartao
+      }
+      walletWithOutCard.limite -= cartao.limite
+      walletWithOutCard.limiteDisponivel -= cartao.limite
+    })
+    walletWithOutCard.cartoes = newWallet
+    console.log(walletWithOutCard)
+    Wallet.update(
+      { usuarioId: req.decoded._id },
+      walletWithOutCard, { new: true },
+      (erro, wallet2) => {
+        if (erro) return res.status(500).send(erro)
+        return res.status(204).send(wallet2)
+      }
+    )
+  })
+}
 
-// }
