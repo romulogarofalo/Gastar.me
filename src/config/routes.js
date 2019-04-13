@@ -12,6 +12,8 @@ const cardController = require('../components/card/cardController')
 
 const walletController = require('../components/wallet/walletController')
 
+const buyController = require('../components/buy/buyController')
+
 router.route('/login')
   .post(authController.login)
 
@@ -26,5 +28,8 @@ router.route('/cards')
 router.route('/wallets')
   .post(middleWareAuth, walletController.addWallet)
   .get(middleWareAuth, walletController.getWallet)
+
+router.route('/buy')
+  .post(middleWareAuth, buyController.makeBuy)
 
 module.exports = router
