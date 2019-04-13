@@ -12,7 +12,7 @@ const app = require('../../../config/server')
 
 const AuthController = require('../authController')
 
-describe('teste da rota', () => {
+describe('Auth integration tests', () => {
   afterAll(async () => {
     await mongoose.connection.close()
   })

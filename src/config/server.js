@@ -8,6 +8,8 @@ const server = express()
 
 const router = require('./routes')
 
+require('./database')
+
 server.use(bodyParser.urlencoded({ extended: true }))
 server.use(bodyParser.json())
 
