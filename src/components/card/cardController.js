@@ -7,7 +7,6 @@ const Card = require('./cardModel')
 const Wallet = require('../wallet/walletModel')
 
 exports.getCards = (req, res) => {
-  console.log(req.decoded)
   // eslint-disable-next-line no-underscore-dangle
   Wallet.findOne({ usuarioId: req.decoded._id }, (err, wallet) => {
     if (err) {
@@ -38,7 +37,6 @@ exports.addCard = (req, res) => {
       if (!wallet) {
         return res.status(404).json('Você precisa criar uma wallet antes de criar cartoes')
       }
-      console.log(wallet)
       if (err) {
         return res.send(err.message)
       }
@@ -47,15 +45,14 @@ exports.addCard = (req, res) => {
       oldWallet.cartoes.push(cartao)
       oldWallet.limite += cartao.limite
       oldWallet.limiteDisponivel += cartao.limite
-      console.log(oldWallet)
 
-      return Wallet.update(
+      return Wallet.updateOne(
         // eslint-disable-next-line no-underscore-dangle
         { usuarioId: req.decoded._id },
         oldWallet, { new: true },
         (er, wallet2) => {
           if (er) return res.status(500).send(er)
-          return res.status(204).send(wallet2)
+          return res.status(201).send(wallet2)
         }
       )
     })
@@ -75,8 +72,7 @@ exports.removeCard = (req, res) => {
       walletWithOutCard.limiteDisponivel -= cartao.limite
     })
     walletWithOutCard.cartoes = newWallet
-    console.log(walletWithOutCard)
-    Wallet.update(
+    Wallet.updateOne(
       { usuarioId: req.decoded._id },
       walletWithOutCard, { new: true },
       (erro, wallet2) => {

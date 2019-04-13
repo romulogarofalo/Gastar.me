@@ -15,7 +15,6 @@ exports.addWallet = (req, res) => {
     newWallet.limite = 0
     newWallet.limiteDisponivel = 0
 
-    console.log(newWallet)
     return newWallet.save((erro) => {
       if (erro) {
         res.status(400)
@@ -35,7 +34,6 @@ exports.getWallet = (req, res) => {
     if (!wallet) {
       return res.status(404).json('Nenhuma Wallet foi encontrada')
     }
-    console.log(wallet)
     if (err) {
       return res.send(err.message)
     }

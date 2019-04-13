@@ -17,7 +17,7 @@ const CardSchema = new Schema({
     unique: false,
   },
   validade: {
-    type: Date,
+    type: String,
     required: true,
     unique: false,
   },

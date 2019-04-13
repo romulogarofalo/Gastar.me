@@ -49,9 +49,7 @@ exports.signup = (req, res, next) => {
   if (confirmPassword === password) {
     return res.status(400).send({ errors: ['Senhas não conferem.'] })
   }
-  console.log(email)
   return User.findOne({ email }, (err, user) => {
-    console.log(user)
     if (err) {
       return res.send(err)
     } if (user) {

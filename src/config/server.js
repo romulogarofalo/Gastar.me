@@ -14,5 +14,7 @@ server.use(bodyParser.json())
 server.use('/api', router)
 
 server.listen(port, () => {
-  console.log(`server is running at port: ${port}`)
+  // console.log(`server is running at port: ${port}`)
 })
+
+module.exports = server
