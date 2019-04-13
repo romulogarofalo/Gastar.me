@@ -4,4 +4,4 @@ jobs:
     docker:
       - image: node:10.9.0-alpine
       - image: mongo
-    - run: npm test
+  - run: npm test
