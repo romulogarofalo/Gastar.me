@@ -8,6 +8,8 @@ https://github.com/i0natan/nodebestpractices/blob/master/README.brazilian-portug
 linter utilizado
 https://github.com/pagarme/javascript-style-guide
 
+padrão de commit utilizado https://gist.github.com/adeekshith/cd4c95a064977cdc6c50
+
 ### Tasks
 
 Rotas 
