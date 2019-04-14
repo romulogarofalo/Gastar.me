@@ -7,7 +7,6 @@
     "dev": "nodemon",
     "production": "pm2 start src/loader.js --name todo-app",
     "test": "jest",
-    "test:model": "jest --testPathPattern model_test",
     "test:service": "jest --testPathPattern service_test",
     "test:app": "jest --testPathPattern app_test",
     "coverage": "jest --collectCoverageFrom=src/**.js --collectCoverageFrom=!src/index.js --coverage src"
