@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
-// const mongoDB = 'mongodb://mongo:27017/testedb1'
-const mongoDB = 'mongodb://localhost/testedb1'
+const mongoDB = 'mongodb://mongo:27017/testedb1'
+// const mongoDB = 'mongodb://localhost/testedb1'
 
 mongoose.connect(mongoDB, { useNewUrlParser: true })
 
