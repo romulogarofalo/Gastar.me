@@ -1,20 +1,19 @@
 const mongoose = require('mongoose')
 
 // const mongoDB = 'mongodb://mongo:27017/testedb1'
-
 const mongoDB = 'mongodb://localhost/testedb1'
 
 mongoose.connect(mongoDB, { useNewUrlParser: true })
 
-const User = require('../../user/userModel')
+const Wallet = require('../walletModel')
 
-describe('User Model test', () => {
+describe('Wallet Model test', () => {
   beforeAll(async () => {
-    await User.remove({})
+    await Wallet.remove({})
   })
 
   afterEach(async () => {
-    await User.remove({})
+    await Wallet.remove({})
   })
 
   afterAll(async () => {
@@ -22,10 +21,10 @@ describe('User Model test', () => {
   })
 
   it('has a module', () => {
-    expect(User).toBeDefined()
+    expect(Wallet).toBeDefined()
   })
 
-  // describe('get user', () => {
+  // describe('get Wallet', () => {
   //   it('')
   // })
 })

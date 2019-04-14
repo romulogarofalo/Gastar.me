@@ -2,8 +2,7 @@ const jwt = require('jsonwebtoken')
 
 const User = require('../user/userModel')
 
-const authService = require('./authService')
-// const passwordRegex = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})/
+const authService = require('./authService')(User)
 
 exports.login = async (req, res) => {
   const email = req.body.email || ''
@@ -11,13 +10,14 @@ exports.login = async (req, res) => {
 
   try {
     const user = await authService.findUser(email)
-    const { status, message } = authService.checkPassword(user, password)
+    const { status, message } = authService.checkPasswordLogin(user, password)
     res.status(status).json(message)
   } catch ({ message }) {
     res.status(500).json(message)
   }
 }
 
+// COLOCAR ISSO DENTRO DE UM MIDDLEWARE? ///////////////////////////////////////////////
 // eslint-disable-next-line no-unused-vars
 exports.validateToken = (req, res, next) => {
   const token = req.body.token || ''
@@ -28,41 +28,42 @@ exports.validateToken = (req, res, next) => {
 }
 
 // eslint-disable-next-line no-unused-vars
-exports.signup = (req, res, next) => {
-  const email = req.body.email || ''
-  const password = req.body.password || ''
-  const confirmPassword = req.body.confirm_password || ''
+exports.signup = async (req, res, next) => {
+  try {
+    const { nome, email, password } = req.body
 
-  // eslint-disable-next-line no-undef
-  // if (!email.match(emailRegex)) {
-  //   return res.status(400).send({ errors: ['O e-mail informa está inválido'] })
-  // }
+    const user = await authService.findUser(email)
+    if (user.length !== 0) return res.status(409).send({ message: 'usuario ja cadastrado' })
 
-  // if (!password.match(passwordRegex)) {
-  //   return res.status(400).send({ errors: ['Senha precisar ter: uma letra maiúscula, uma letra minúscula, um número, uma caractere especial(@#$%) e tamanho entre 6-20.'] })
-  // }
+    const newUser = await authService.createNewUser(nome, email, password)
 
-  if (confirmPassword === password) {
-    return res.status(400).send({ errors: ['Senhas não conferem.'] })
-  }
-  return User.findOne({ email }, (err, user) => {
-    if (err) {
-      return res.send(err)
-    } if (user) {
-      return res.status(409).send({ errors: ['usuario ja cadastrado'] })
+    if (newUser.message && newUser.status) {
+      return res.status(newUser.status).json(newUser.message)
     }
 
-    const newUser = new User(req.body)
-    return newUser.save((erro) => {
-      if (erro) {
-        res.status(400)
-        return res.send(erro.message)
-      }
-      res.status(201)
-      return res.json({
-        message: 'User succesfully created',
-      })
-    })
-  })
+    return res.status(201).send('Usuario criado com sucesso!')
+  } catch ({ message }) {
+    return res.status(500).json(message)
+  }
+
+  // return User.findOne({ email }, (err, user) => {
+  //   if (err) {
+  //     return res.send(err)
+  //   } if (user) {
+  //     return res.status(409).send({ errors: ['usuario ja cadastrado'] })
+  //   }
+
+  //   const newUser = new User(req.body)
+  //   return newUser.save((erro) => {
+  //     if (erro) {
+  //       res.status(400)
+  //       return res.send(erro.message)
+  //     }
+  //     res.status(201)
+  //     return res.json({
+  //       message: 'User succesfully created',
+  //     })
+  //   })
+  // })
 }
 

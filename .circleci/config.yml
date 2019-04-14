@@ -2,6 +2,18 @@ version: 2
 jobs:
   build:
     docker:
-      - image: node:10.9.0-alpine
-      - image: mongo
-  - run: npm test
+      - image: circleci/node:10.9.0-alpine
+      - image: circleci/mongo
+    steps:
+      - run: npm run dev
+  test:
+    docker:
+      - image: circleci/node:10.9.0-alpine
+      - image: circleci/mongo
+    steps:
+      - run: npm test
+workflows:
+  version: 2
+  build_test:
+    jobs:
+      - build
