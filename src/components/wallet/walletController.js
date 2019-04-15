@@ -1,42 +1,31 @@
 const Wallet = require('./walletModel')
 
-exports.addWallet = (req, res) => {
-  // eslint-disable-next-line no-underscore-dangle
-  Wallet.findOne({ usuarioId: req.decoded._id }, (err, wallet) => {
-    // se encontrar manda 409
-    if (wallet) {
-      return res.status(409).send({ errors: ['Wallet ja criada'] })
-    }
+const walletService = require('./walletService')(Wallet)
 
-    // eslint-disable-next-line prefer-const
-    let newWallet = new Wallet()
+exports.addWallet = async (req, res) => {
+  try {
     // eslint-disable-next-line no-underscore-dangle
-    newWallet.usuarioId = req.decoded._id
-    newWallet.limite = 0
-    newWallet.limiteDisponivel = 0
+    const userId = req.decoded._id
+    const user = await walletService.findWallet(userId)
+    if (user.length !== 0) return res.status(409).send({ message: 'Wallet ja criada' })
 
-    return newWallet.save((erro) => {
-      if (erro) {
-        res.status(400)
-        return res.send(erro.message)
-      }
-      res.status(201)
-      return res.send('wallet created')
-    })
-  })
+    await walletService.createNewWallet(userId)
+
+    return res.status(201).send({ message: 'Wallet criada com sucesso!' })
+  } catch ({ message }) {
+    return res.status(500).json(message)
+  }
 }
 
-exports.getWallet = (req, res) => {
-  Wallet.findOne({
+exports.getWallet = async (req, res) => {
+  try {
     // eslint-disable-next-line no-underscore-dangle
-    usuarioId: req.decoded._id,
-  }, (err, wallet) => {
-    if (!wallet) {
-      return res.status(404).json('Nenhuma Wallet foi encontrada')
-    }
-    if (err) {
-      return res.send(err.message)
-    }
-    return res.status(200).json(wallet)
-  })
+    const userId = req.decoded._id
+    const wallet = await walletService.findWallet(userId)
+    if (wallet.length !== 0) { res.status(404).send({ message: 'Wallet nao encontrada, Crie uma!' }) }
+
+    return res.status(200).send({ message: wallet[0] })
+  } catch ({ message }) {
+    return res.status(500).json(message)
+  }
 }
