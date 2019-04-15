@@ -45,25 +45,5 @@ exports.signup = async (req, res, next) => {
   } catch ({ message }) {
     return res.status(500).json(message)
   }
-
-  // return User.findOne({ email }, (err, user) => {
-  //   if (err) {
-  //     return res.send(err)
-  //   } if (user) {
-  //     return res.status(409).send({ errors: ['usuario ja cadastrado'] })
-  //   }
-
-  //   const newUser = new User(req.body)
-  //   return newUser.save((erro) => {
-  //     if (erro) {
-  //       res.status(400)
-  //       return res.send(erro.message)
-  //     }
-  //     res.status(201)
-  //     return res.json({
-  //       message: 'User succesfully created',
-  //     })
-  //   })
-  // })
 }
 

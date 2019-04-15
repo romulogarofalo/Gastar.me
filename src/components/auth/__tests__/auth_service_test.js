@@ -3,7 +3,7 @@ const AuthService = require('../authService')
 const sinon = require('sinon')
 
 describe('AuthService test login', () => {
-  it('findUser' , () => {
+  it('findUser', () => {
     const MockModel = {
       find: sinon.spy()
     }
@@ -15,10 +15,9 @@ describe('AuthService test login', () => {
 })
 
 describe('AuthService test Register', () => {
-  it('findUser' , () => {
+  it('findUser', () => {
     const save = sinon.spy()
-    const MockModel = function(data){
-      reqbody = {}
+    const MockModel = function (data) {
       nome = data.nome
       email =  data.email
       password = data.password
@@ -28,7 +27,6 @@ describe('AuthService test Register', () => {
         save
       }
     }
-    console.log()
     const authService = AuthService(MockModel)
 
     authService.createNewUser('foo', 'foo@foo.com', 'Qwe123@')
@@ -36,5 +34,4 @@ describe('AuthService test Register', () => {
     const actual = save.calledOnce
     expect(actual).toEqual(true)
   })
-
 })
