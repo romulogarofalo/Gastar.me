@@ -22,7 +22,7 @@ exports.getWallet = async (req, res) => {
     // eslint-disable-next-line no-underscore-dangle
     const userId = req.decoded._id
     const wallet = await walletService.findWallet(userId)
-    if (wallet.length !== 0) { res.status(404).send({ message: 'Wallet nao encontrada, Crie uma!' }) }
+    if (wallet.length === 0) { res.status(404).send({ message: 'Wallet nao encontrada, Crie uma!' }) }
 
     return res.status(200).send({ message: wallet[0] })
   } catch ({ message }) {

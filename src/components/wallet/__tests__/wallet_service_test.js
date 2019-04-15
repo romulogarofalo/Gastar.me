@@ -19,13 +19,28 @@ describe('WalletService test create', () => {
 })
 
 describe('WalletService test find', () => {
-  it('find wallet' , () => {
+  it('find wallet', () => {
     const MockModel = {
-      find: sinon.spy()
+      find: sinon.spy(),
     }
     const walletService = WalletService(MockModel)
     walletService.findWallet('teste')
     const actual = MockModel.find.calledOnce
+    expect(actual).toEqual(true)
+  })
+})
+
+describe('WalletService test update', () => {
+  it('create Wallet', () => {
+    // const updateOne = sinon.spy()
+    // eslint-disable-next-line func-names
+    const MockModel = {
+      updateOne: sinon.spy(),
+    }
+
+    const walletService = WalletService(MockModel)
+    walletService.updateWallet('usuarioId', 'newWallet')
+    const actual = MockModel.updateOne.calledOnce
     expect(actual).toEqual(true)
   })
 })
