@@ -6,80 +6,54 @@ const Card = require('./cardModel')
 
 const Wallet = require('../wallet/walletModel')
 
-exports.getCards = (req, res) => {
-  // eslint-disable-next-line no-underscore-dangle
-  Wallet.findOne({ usuarioId: req.decoded._id }, (err, wallet) => {
-    if (err) {
-      return res.json(err.message)
-    }
-    if (!wallet) {
-      return res.status(404).json('nenhuma wallet encontrada')
-    }
-    res.status(200)
-    return res.json(wallet.cartoes)
-  })
+const walletService = require('../wallet/walletService')(Wallet)
+
+const cardService = require('./cardService')(Card)
+
+exports.getCards = async (req, res) => {
+  try {
+    const userId = req.decoded._id
+    const wallet = await walletService.findWallet(userId)
+    if (wallet.length !== 0) { res.status(404).send({ message: 'Wallet nao encontrada, Crie uma!' }) }
+
+    return res.status(200).send({ message: wallet[0].cartoes })
+  } catch ({ message }) {
+    return res.status(500).json(message)
+  }
 }
 
-// eslint-disable-next-line consistent-return
-exports.addCard = (req, res) => {
-  const card = new Card(req.body)
-  // eslint-disable-next-line consistent-return
-  card.save((erro, cartao) => {
-    if (erro) {
-      res.status(400)
-      return res.send(erro.message)
-    }
+exports.addCard = async (req, res) => {
+  try {
+    const userId = req.decoded._id
+    const oldWallet = await walletService.findWallet(userId)
 
-    Wallet.findOne({
-      // eslint-disable-next-line no-underscore-dangle
-      usuarioId: req.decoded._id,
-    }, (err, wallet) => {
-      if (!wallet) {
-        return res.status(404).json('Você precisa criar uma wallet antes de criar cartoes')
-      }
-      if (err) {
-        return res.send(err.message)
-      }
-      // eslint-disable-next-line prefer-const
-      let oldWallet = wallet
-      oldWallet.cartoes.push(cartao)
-      oldWallet.limite += cartao.limite
-      oldWallet.limiteDisponivel += cartao.limite
+    if (oldWallet[0].length === 0) { res.status(404).send({ message: 'Wallet nao encontrada, Crie uma!' }) }
 
-      return Wallet.updateOne(
-        // eslint-disable-next-line no-underscore-dangle
-        { usuarioId: req.decoded._id },
-        oldWallet, { new: true },
-        (er, wallet2) => {
-          if (er) return res.status(500).send(er)
-          return res.status(201).send(wallet2)
-        }
-      )
-    })
-  })
+    const newCard = await cardService.addCard(req.body)
+    const newWallet = cardService.addCardOnWallet(oldWallet[0], newCard)
+    const updatedWallet = await walletService.updateWallet(userId, newWallet)
+
+    return res.status(201).send(updatedWallet)
+  } catch ({ message }) {
+    return res.status(500).json(message)
+  }
 }
 
-exports.removeCard = (req, res) => {
-  Wallet.findOne({
-    usuarioId: req.decoded._id,
-  }, (err, wallet) => {
-    let walletWithOutCard = wallet
-    const newWallet = wallet.cartoes.filter((cartao) => {
-      if (String(cartao._id) !== req.body.idCartao) {
-        return cartao
-      }
-      walletWithOutCard.limite -= cartao.limite
-      walletWithOutCard.limiteDisponivel -= cartao.limite
-    })
-    walletWithOutCard.cartoes = newWallet
-    Wallet.updateOne(
-      { usuarioId: req.decoded._id },
-      walletWithOutCard, { new: true },
-      (erro, wallet2) => {
-        if (erro) return res.status(500).send(erro)
-        return res.status(204).send(wallet2)
-      }
+exports.removeCard = async (req, res) => {
+  try {
+    const userId = req.decoded._id
+    const wallet = await walletService.findWallet(userId)
+    if (wallet.length === 0) { res.status(404).send({ message: 'Wallet nao encontrada, Crie uma!' }) }
+    console.log(wallet[0])
+    const walltListWithoutCard = cardService.removeCardFromWallet(
+      wallet[0],
+      req.body.idCartao
     )
-  })
-}
+    wallet.cartoes = walltListWithoutCard
+    const updatedWallet = await walletService.updateWallet(userId, wallet)
 
+    return res.status(201).send(updatedWallet) // aqui deveria ser 204
+  } catch ({ message }) {
+    return res.status(500).json(message)
+  }
+}
