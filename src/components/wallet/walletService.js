@@ -1,6 +1,8 @@
 // eslint-disable-next-line arrow-body-style
-const findWallet = Wallet => (usuarioId) => {
-  return Wallet.find({ usuarioId })
+const findWallet = Wallet => (usuarioId, nivelAcesso = 1) => {
+  console.log(typeof (nivelAcesso))
+  return (nivelAcesso === '2' ? Wallet.find({}) : Wallet.find({ usuarioId }))
+  // return Wallet.find({ usuarioId })
 }
 
 const createNewWallet = Wallet => (usuarioId) => {
@@ -19,8 +21,14 @@ const updateWallet = Wallet => (usuarioId, newWallet) => {
   return Wallet.updateOne({ usuarioId }, newWallet, { new: true })
 }
 
+// eslint-disable-next-line arrow-body-style
+const deleteWallet = Wallet => (idWallet) => {
+  return Wallet.deleteOne({ _id: idWallet })
+}
+
 module.exports = Wallet => ({
   findWallet: findWallet(Wallet),
   createNewWallet: createNewWallet(Wallet),
   updateWallet: updateWallet(Wallet),
+  deleteWallet: deleteWallet(Wallet),
 })

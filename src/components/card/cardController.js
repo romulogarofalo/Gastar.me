@@ -52,7 +52,7 @@ exports.removeCard = async (req, res) => {
     wallet.cartoes = walltListWithoutCard
     const updatedWallet = await walletService.updateWallet(userId, wallet)
 
-    return res.status(201).send(updatedWallet) // aqui deveria ser 204
+    return res.status(204).send(updatedWallet)
   } catch ({ message }) {
     return res.status(500).json(message)
   }

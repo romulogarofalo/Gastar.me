@@ -44,3 +44,5 @@ describe('WalletService test update', () => {
     expect(actual).toEqual(true)
   })
 })
+
+// teste do delete (e os de integração)
