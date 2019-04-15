@@ -21,7 +21,7 @@ describe('AuthService test Register', () => {
       nome = data.nome
       email =  data.email
       password = data.password
-      
+      nivelAcesso = data.nivelAcesso
       return {
         ...data,
         save
@@ -29,7 +29,7 @@ describe('AuthService test Register', () => {
     }
     const authService = AuthService(MockModel)
 
-    authService.createNewUser('foo', 'foo@foo.com', 'Qwe123@')
+    authService.createNewUser('foo', 'foo@foo.com', 'Qwe123@', 1)
 
     const actual = save.calledOnce
     expect(actual).toEqual(true)

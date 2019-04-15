@@ -30,12 +30,18 @@ exports.validateToken = (req, res, next) => {
 // eslint-disable-next-line no-unused-vars
 exports.signup = async (req, res, next) => {
   try {
-    const { nome, email, password } = req.body
+    const {
+      nome,
+      email,
+      password,
+      nivelAcesso,
+    } = req.body
 
     const user = await authService.findUser(email)
     if (user.length !== 0) return res.status(409).send({ message: 'usuario ja cadastrado' })
 
-    const newUser = await authService.createNewUser(nome, email, password)
+    // eslint-disable-next-line max-len
+    const newUser = await authService.createNewUser(nome, email, password, nivelAcesso)
 
     if (newUser.message && newUser.status) {
       return res.status(newUser.status).json(newUser.message)

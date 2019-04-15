@@ -30,7 +30,8 @@ const validateLoginAndPassword = (email, password) => { // TESTE UNITARIO
   return null
 }
 
-const createNewUser = User => (nome, email, password) => {
+// eslint-disable-next-line max-params
+const createNewUser = User => (nome, email, password, nivelAcesso) => {
   const maybe = validateLoginAndPassword(email, password)
   if (maybe) {
     return { status: maybe.status, message: maybe.message }
@@ -40,7 +41,7 @@ const createNewUser = User => (nome, email, password) => {
     nome,
     email,
     password,
-    nivelAcesso: 1,
+    nivelAcesso,
   })
   return newUser.save()
 }
