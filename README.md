@@ -67,52 +67,52 @@ Rotas
 [for more datails here the link for Postman docs](https://documenter.getpostman.com/view/1994420/S1EQUJaE)
 
 ## All Tasks
-Rotas 
-- [x] Autenticação terminado dia 10/04 2:00
-     - [x] registro de usuario
+Routes 
+- [x] Authentication morning 10/04 2:00
+     - [x] sign up
      - [x] login
-- [x] Listar cartões 10/04 tarde 17:50
-- [x] Adicionar cartão 10/04 tarde 17:00
-- [x] Remover cartão 10/04 noite 23:14
-- [x] Ver wallet 10/04 noite 18:00
-- [x] Comprar 15/04 tarde 15:00
-- [x] Pagar fatura
-- [x] Cadastro (feito junto com a autenticação)
-- [x] Criação de wallet 10/04 15:00
-- [x] Administrativo - Listar wallets  15/04 tarde 17:03
-- [x] Administrativo - Deletar wallet 15/04 tarde 17:03
+- [x] List Cards 10/04 afternoon 17:50
+- [x] Add Card 10/04 afternoon 17:00
+- [x] Remove Card 10/04 evening 23:14
+- [x] Get Wallet 10/04 evening 18:00
+- [x] Buy 15/04 afternoon 15:00
+- [x] Pay bill
+- [x] Register (done with authentication)
+- [x] Create wallet 10/04 15:00
+- [x] Administrative - List wallets  15/04 afternoon 17:03
+- [x] Administrative - Delete wallet 15/04 afternoon 17:03
 
 Jobs
 - [ ] Notificação de fatura fechada
 
-Documentação
-- [ ] Link com rotas feitas no postoman 
+Documentation
+- [x] Link with all routes on postoman
 - [ ] JSDoc
 
 Testes
-- [x] Auticacao
-    - [x] Integração
-    - [ ] Unitario
-- [x] Cartoes
-    - [x] Integração
-    - [ ] Unitario
+- [x] Authentication
+    - [x] integration
+    - [ ] Unit (1 left)
+- [x] Cards
+    - [x] integration
+    - [x] Unit
 - [x] Wallets
-    - [x] Integração
-- [ ] Compras
-    - [ ] Integração
-    - [ ] Unitario
-- [ ] Fatura
-    - [ ] Integração
-    - [ ] Unitario
+    - [x] integration
+- [x] Buys
+    - [x] integration
+    - [ ] Unit
+- [ ] Bill
+    - [ ] integration
+    - [ ] Unit
 
-Infraestrutura
-- [x] usar travis ou circle.ci
-- [ ] Integração com Coveralls (ferramenta que mostra o covarage dos testes)
-- [ ] auto deploy no Heroku
-- [ ] configurações pre-commit
+Infrastructure
+- [x] use travis or circle.ci
+- [ ] Integrate with Coveralls (tool to do covarage tests)
+- [ ] auto deploy on Heroku
+- [ ] configs pre-commit
 
 ## Useful Links
-[style guilde that was chosen to follow](https://github.com/i0natan/nodebestpractices/blob/master/README.brazilian-portuguese.md#1-pr%C3%A1ticas-de-estrutura-de-projeto)
-[Linter used](https://github.com/pagarme/javascript-style-guide)
-[commit pattern used](https://gist.github.com/adeekshith/cd4c95a064977cdc6c50)
-[nice pattern for emogis](https://gitmoji.carloscuesta.me/?fbclid=IwAR3JhM6m-s7l3XEYPN9vtlZwatGQvxhk8ETzHqbAg5pV5PCH8ajoxzORRQM)
+[style guilde that was chosen to follow](https://github.com/i0natan/nodebestpractices/blob/master/README.brazilian-portuguese.md#1-pr%C3%A1ticas-de-estrutura-de-projeto)  
+[Linter used](https://github.com/pagarme/javascript-style-guide)  
+[commit pattern used](https://gist.github.com/adeekshith/cd4c95a064977cdc6c50)  
+[nice pattern for emogis](https://gitmoji.carloscuesta.me/?fbclid=IwAR3JhM6m-s7l3XEYPN9vtlZwatGQvxhk8ETzHqbAg5pV5PCH8ajoxzORRQM)  
