@@ -66,8 +66,29 @@ describe('BuyService test ', () => {
     expect(awnser).toEqual(diaFatura)
   })
 
-  it('get all buys', () => {})
+  it('save a buy', () => {
+    const save = sinon.spy()
+    const MockModel = function (data) {
+      buy = data.buy
+      return {
+        ...data,
+        save
+      }
+    }
+    const buyService = BuyService(MockModel)
+    buyService.makeBuy('new buy')
+    expect(save.calledOnce).toEqual(true)
+  })
 
+  it('find buy from especific card', () => {
+    const MockModel = {
+      find: sinon.spy()
+    }
+    const buyService = BuyService(MockModel)
+    buyService.getBuysFromEspecificCard('cartaoId', 'usuarioId')
+    const actual = MockModel.find.calledOnce
+    expect(actual).toEqual(true)
+  })
 
   it('get all buys', () => {
     const MockModel = {
