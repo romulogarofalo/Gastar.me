@@ -8,16 +8,18 @@ const getDateCloseInvoice = Buy => (dia) => {
   return moment().subtract(1, 'months').format(`YYYY-MM-${dia}`)
 }
 
+const sortCards = (objectWithCards) => {
+  let sortable = []
+  for (var index in objectWithCards) {
+      sortable.push([index, objectWithCards[index]])
+  }
+  return sortable.sort(function(a, b) {
+      return a[1] - b[1]
+  })
+}
+
 const ordenateCardsWithFarawayInvoice = Buy => (wallet) => {
-  const dia = new Date()
-  // const hoje = dia.getDate()
   const hoje = 10
-  let cartaoComDataLonge = 0
-  let indexComDataLonge = 0
-
-  let arrayMenorSortido = {}
-  let arrayMaiorSortido = {}
-
   let arrayMaior = {}
   let arrayMenor = {}
 
@@ -29,23 +31,14 @@ const ordenateCardsWithFarawayInvoice = Buy => (wallet) => {
     }
   })
 
-  listCardsSorted = sortCards(arrayMenor).concat(sortCards(arrayMaior).reverse())
+  // eslint-disable-next-line max-len
+  const listCardsSorted = sortCards(arrayMenor).concat(sortCards(arrayMaior).reverse())
 
   return findEqualPayDate(listCardsSorted, wallet.cartoes)
 }
 
 const getCardFromList = (Buy) => (wallet, list, index) => {
   return wallet.cartoes[list[index][0]]
-}
-
-const sortCards = (objectWithCards) => {
-  var sortable = [];
-  for (var index in objectWithCards) {
-      sortable.push([index, objectWithCards[index]]);
-  }
-  return sortable.sort(function(a, b) {
-      return a[1] - b[1];
-  });
 }
 
 const findEqualPayDate = (arraySortido, cartoes, valorDaCompra) => {
@@ -65,30 +58,29 @@ const findEqualPayDate = (arraySortido, cartoes, valorDaCompra) => {
   return arraySortido
 }
 
-const getLimitAvalibleCard = Buy => (buysWithCard, card) => {
-
+const getLimitAvalibleCard = (buysWithCard, card) => { // ISSO TA ERRRADO
   const dia = new Date()
   const hoje = dia.getDate()
   let dataLastFatura = ''
   if (card.vencimento < hoje) {
-    dataLastFatura =`${dia.getFullYear()}-${(dia.getMonth()+1)}-${card.vencimento}`
+    dataLastFatura = `${dia.getFullYear()}-${(dia.getMonth()+1)}-${card.vencimento}`
   } else {
     dataLastFatura = `${dia.getFullYear()}-${(dia.getMonth()+2)}-${card.vencimento}`
   }
 
   const compras = buysWithCard.filter((buy) => {
-    if(moment(buy.data).isAfter(dataLastFatura) && buy.paga == false) {
+    if(moment(buy.data).isAfter(dataLastFatura)) {
       return buy
     }
   })
 
   const sumBuys = compras.reduce((acumulador, compra) => {
     if (moment(compra.data).isAfter(getDateCloseInvoice(wallet.cartoes[indexComDataLonge].vencimento))) {
-      return compra + acumulador
+      return (compra + acumulador)
     }
   }, 0)
 
-  return card.limite - sumBuys
+  return (card.limite - sumBuys)
 }
 
 const getBuysFromEspecificCard = Buy => (cartaoId, usuarioId) => {
@@ -102,14 +94,16 @@ const getAllBuys = Buy => (usuarioId) => {
 const makeListBuy = Buy => (wallet, sortedListCards, buy, usuarioId, allBuys) => {
   buyList = []
   let i = 0;
-  while (buy.preco <= 0) {
+  while (buy.preco > 0) {
     const buyOfCard = allBuys.filter((buy) => {
-      if(buy.cartaoId === getCardFromList(wallet, sortedListCards, i)._id){
+      if(buy.cartaoId === getCardFromList()(wallet, sortedListCards, i)._id){
         return buy
       }
     })
-    const card = getCardFromList(wallet, sortedListCards, i)
+    const card = getCardFromList()(wallet, sortedListCards, i)
+
     limitAvaliable = getLimitAvalibleCard(buyOfCard, card)
+
     if(limitAvaliable > buy.preco) {
       buyList.push({
         usuarioId,
@@ -136,16 +130,14 @@ const makeListBuy = Buy => (wallet, sortedListCards, buy, usuarioId, allBuys) =>
 }
 
 const makeBuy = Buy => (buy) => {
-  newBuy = new Buy(buy)
+  const newBuy = new Buy(buy)
   return newBuy.save()
 }
-
 
 module.exports = Buy => ({
   ordenateCardsWithFarawayInvoice: ordenateCardsWithFarawayInvoice(Buy),
   getBuysFromEspecificCard: getBuysFromEspecificCard(Buy),
   getCardFromList: getCardFromList(Buy),
-  getLimitAvalibleCard: getLimitAvalibleCard(Buy),
   makeListBuy: makeListBuy(Buy),
   getAllBuys: getAllBuys(Buy),
   makeBuy: makeBuy(Buy)

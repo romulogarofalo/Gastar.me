@@ -4,7 +4,7 @@
 
 const moment = require('moment')
 
-const getDateOpenDayBill = Bill => (diaVencimentoCartao) => {
+const getDateOpenDayBill = (diaVencimentoCartao) => {
   const dia = new Date()
   const hoje = dia.getDate()
 
@@ -20,7 +20,7 @@ const getAmountToPay = Bill => (wallet, buys, payments) => {
   wallet.cartoes.forEach((card) => { // da pra trocar pra reduce se pa
     amountBill += buys.reduce((acumulador, buy) => {
       // eslint-disable-next-line max-len
-      if (buy.cartaoId === card._id && moment(getDateOpenDayBill(card.vencimento)).isBefore(buy.data)) {
+      if (buy.cartaoId === String(card._id) && moment(getDateOpenDayBill(card.vencimento)).isBefore(buy.data)) {
         return acumulador + parseFloat(buy.preco)
       }
       return acumulador + 0

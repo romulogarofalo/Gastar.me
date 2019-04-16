@@ -4,7 +4,7 @@ const BuySchema = new Schema({
   usuarioId: {
     type: String,
     required: true,
-    unique: true,
+    unique: false,
   },
   cartaoId: {
     type: String,
