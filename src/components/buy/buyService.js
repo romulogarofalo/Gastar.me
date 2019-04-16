@@ -140,5 +140,6 @@ module.exports = Buy => ({
   getCardFromList: getCardFromList(Buy),
   makeListBuy: makeListBuy(Buy),
   getAllBuys: getAllBuys(Buy),
-  makeBuy: makeBuy(Buy)
+  makeBuy: makeBuy(Buy),
+  getDateCloseInvoice: getDateCloseInvoice(Buy),
 })
