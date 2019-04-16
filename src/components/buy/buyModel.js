@@ -21,11 +21,6 @@ const BuySchema = new Schema({
     required: true,
     unique: false,
   },
-  paga: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
 })
 
 module.exports = model('Buy', BuySchema)

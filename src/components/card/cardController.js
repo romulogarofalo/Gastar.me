@@ -14,7 +14,7 @@ exports.getCards = async (req, res) => {
   try {
     const userId = req.decoded._id
     const wallet = await walletService.findWallet(userId)
-    if (wallet.length !== 0) { res.status(404).send({ message: 'Wallet nao encontrada, Crie uma!' }) }
+    if (wallet.length === 0) { res.status(404).send({ message: 'Wallet nao encontrada, Crie uma!' }) }
 
     return res.status(200).send({ message: wallet[0].cartoes })
   } catch ({ message }) {

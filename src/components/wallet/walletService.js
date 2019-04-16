@@ -1,8 +1,6 @@
 // eslint-disable-next-line arrow-body-style
 const findWallet = Wallet => (usuarioId, nivelAcesso = 1) => {
-  console.log(typeof (nivelAcesso))
   return (nivelAcesso === '2' ? Wallet.find({}) : Wallet.find({ usuarioId }))
-  // return Wallet.find({ usuarioId })
 }
 
 const createNewWallet = Wallet => (usuarioId) => {

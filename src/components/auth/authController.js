@@ -47,7 +47,7 @@ exports.signup = async (req, res, next) => {
       return res.status(newUser.status).json(newUser.message)
     }
 
-    return res.status(201).send('Usuario criado com sucesso!')
+    return res.status(201).send({ message: 'Usuario criado com sucesso!' })
   } catch ({ message }) {
     return res.status(500).json(message)
   }
