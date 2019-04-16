@@ -44,13 +44,15 @@ exports.removeCard = async (req, res) => {
     const userId = req.decoded._id
     const wallet = await walletService.findWallet(userId)
     if (wallet.length === 0) { res.status(404).send({ message: 'Wallet nao encontrada, Crie uma!' }) }
-    console.log(wallet[0])
     const walltListWithoutCard = cardService.removeCardFromWallet(
       wallet[0],
       req.body.idCartao
     )
-    wallet.cartoes = walltListWithoutCard
-    const updatedWallet = await walletService.updateWallet(userId, wallet)
+    // walltListWithoutCard
+    const updatedWallet = await walletService.updateWallet(
+      userId,
+      walltListWithoutCard
+    )
 
     return res.status(204).send(updatedWallet)
   } catch ({ message }) {

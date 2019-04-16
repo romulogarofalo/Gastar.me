@@ -17,7 +17,7 @@ const addCardOnWallet = Card => (wallet, card) => { // UNITARIO
 }
 
 // eslint-disable-next-line no-unused-vars
-const removeCardFromWallet = Card => (wallet, idCard) => { // UNITARIO
+const removeCardFromWallet = Card => (wallet, idCard) => { // VER PQ UNITARIO N FUNCIONOU
   const walletWithOutCard = wallet
   // eslint-disable-next-line array-callback-return
   const walltListCard = wallet.cartoes.filter((cartao) => {
@@ -27,8 +27,9 @@ const removeCardFromWallet = Card => (wallet, idCard) => { // UNITARIO
     walletWithOutCard.limite -= cartao.limite
     walletWithOutCard.limiteDisponivel -= cartao.limite
   })
+  walletWithOutCard.cartoes = walltListCard
 
-  return walltListCard
+  return walletWithOutCard
 }
 
 module.exports = Card => ({
