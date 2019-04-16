@@ -53,17 +53,17 @@ Rotas
 
 | Rotas                  | Descrição                                  | Metodos HTTP |
 |------------------------|--------------------------------------------|--------------|
-|/api/login              | rota de login para autenticação            | POST         |
-|/api/signup             | faz o registro de um novo usuario          | POST         |
-|/api/wallets            | faz o criação de uma nova wallet           | POST         |
-|/api/wallets            | retorna as informações da wallet do usuario| GET          |
+|/api/login              | login route and auth                       | POST         |
+|/api/signup             | register of new user                       | POST         |
+|/api/wallets            | create new wallet                          | POST         |
+|/api/wallets            | get infos about the wallet                 | GET          |
 |/api/wallets            | only ADM can use to delete specific wallet | DELETE       |
-|/api/cards              | registra um novo cartao na wallet          | POST         |
-|/api/cards              | retorna todos os cartoes cadastrados       | GET          |
-|/api/cards              | deleta um cartao                           | DELETE       |
-|/api/buy                |                                            | POST         |
-|/api/bill               |                                            | GET          |
-|/api/bill               |                                            | POST         |
+|/api/cards              | register new card in wallet                | POST         |
+|/api/cards              | return all cards                           | GET          |
+|/api/cards              | delete a card                              | DELETE       |
+|/api/buy                | make new buy                               | POST         |
+|/api/bill               | get the value of current bill              | GET          |
+|/api/bill               | pay the current bill                       | POST         |
 [for more datails here the link for Postman docs](https://documenter.getpostman.com/view/1994420/S1EQUJaE)
 
 ## All Tasks
